@@ -1,7 +1,7 @@
 """Konstanten der Stimmspende."""
 
 DOMAIN = "stimmspende"
-VERSION = "0.2.0"
+VERSION = "0.2.1"
 
 UPLOAD_URL = "https://stimmspende.spionkiller01.workers.dev/spende"
 

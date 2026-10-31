@@ -285,3 +285,110 @@ Schalte die Bewässerung im Garten für zehn Minuten ein.
 Wie viel Energie hat die Solaranlage heute erzeugt?
 Mach im Schlafzimmer die Rollläden zu.
 Starte den Mähroboter.
+Kannst du die Jalousien auf 80 Prozent fahren?
+Fahr den linken Rollladen auf 10 Prozent.
+Alle Rollläden auf 80 Prozent.
+Setz das Rollo auf 75 Prozent.
+Stell die Rollläden im Schlafzimmer auf 35 Prozent.
+Mach die Jalousien auf 20 Prozent.
+Schließ die Jalousie auf 80 Prozent.
+Setz den Rollladen im Wohnzimmer auf 15 Prozent.
+Mach die Rollläden 40 Prozent auf.
+Die Rollläden auf 35 Prozent.
+Mach den linken Rollladen 35 Prozent auf.
+Stell den Rollladen an der Terrassentür auf 30 Prozent.
+Alle Rollläden bitte auf 10 Prozent.
+Fahr den Rollladen im Bad auf 50 Prozent.
+Öffne die Rollläden im Erdgeschoss auf 15 Prozent.
+Fahre den rechten Rollladen im Esszimmer auf 40 Prozent.
+Fahre die Rollläden auf 60 Prozent.
+Die Jalousien bitte auf 90 Prozent.
+Schließ die Rollläden oben auf 65 Prozent.
+Mach den rechten Rollladen im Esszimmer auf 90 Prozent.
+Fahre den Rollladen im Wohnzimmer zu 65 Prozent runter.
+Fahre die Jalousie zu 75 Prozent runter.
+Mach die Rollläden auf 10 Prozent.
+Schließ die Rollläden oben auf 25 Prozent.
+Öffne alle Rollläden auf 30 Prozent.
+Kannst du die Rollläden auf 90 Prozent fahren?
+Stell die Jalousie auf 90 Prozent.
+Öffne die Rollläden auf 40 Prozent.
+Fahr die Jalousien auf 50 Prozent.
+Die Rollläden oben bitte auf 90 Prozent.
+Rollladen schließen.
+Rollladen öffnen.
+Rollläden schließen.
+Rollläden auf.
+Rollladen zu.
+Rollladen runter.
+Rollladen hoch.
+Schließe den Rollladen.
+Schließ die Rollläden im Wohnzimmer.
+Öffne die Jalousie im Arbeitszimmer.
+Mach die Rollläden komplett zu.
+Fahr den Rollladen ganz hoch.
+Fahr den Rollladen ein Stückchen runter.
+Rollladen halb.
+Rollladen auf die Hälfte.
+Den Rollladen ein bisschen weiter runter.
+Noch ein Stück höher.
+Stopp, das reicht.
+Rollladen in Lüftungsstellung.
+Stell die Jalousie auf Beschattung.
+Kipp die Lamellen der Jalousie.
+Wie weit ist der Rollladen im Schlafzimmer offen?
+Auf wie viel Prozent steht der Rollladen?
+Ist der Rollladen in der Küche zu?
+Mach überall die Rollläden auf 30 Prozent.
+Fahr die Markise aus.
+Markise einfahren!
+Fahr die Markise zur Hälfte aus.
+Die Rollläden um acht Uhr hochfahren.
+Schließ um 20 Uhr alle Rollläden.
+Mach den Rollladen auf 0 Prozent.
+Rollladen auf 100 Prozent.
+Rollladen Wohnzimmer 45 Prozent.
+Dimm das Licht im Flur auf 15 Prozent.
+Licht Wohnzimmer 60 Prozent.
+Helligkeit auf 5 Prozent.
+Mach das Licht auf ein Drittel.
+Stell das Licht auf warmweiß.
+Mach das Licht im Schlafzimmer rot.
+Farbe blau im Wohnzimmer.
+Licht auf 2700 Kelvin.
+Heizung im Bad auf 23,5 Grad.
+Stell die Temperatur auf 19 Grad.
+Wohnzimmer zwei Grad wärmer.
+Mach es ein Grad kühler.
+Klimaanlage auf 22 Grad.
+Lautstärke 35.
+Mach die Lautstärke auf 12 Prozent.
+Musik ein bisschen leiser, so auf 20.
+Stell einen Timer auf 1 Stunde und 15 Minuten.
+Timer 90 Sekunden.
+Weck mich um 6:45 Uhr.
+Erinnere mich um 17:30 an das Training.
+Wecker für morgen um halb acht.
+Stell den Wecker auf Viertel nach sechs.
+Timer für 3 Minuten, Eier.
+Wie viel ist 15 Prozent von 80?
+Schalte den Ventilator auf Stufe 3.
+Luftreiniger auf Automatik.
+Saugroboter Saugstufe maximal.
+Wisch das Bad mit hoher Wassermenge.
+Sauge nur die Küche und den Flur.
+Schick den Sauger in den Flur.
+Starte den Saugroboter im Wohnzimmer und in der Küche.
+Garagentor halb auf.
+Lass die Gartenbeleuchtung bis 23 Uhr an.
+Schalte die Steckdose am Schreibtisch aus.
+Mach den Fernseher auf HDMI 2.
+Schalte auf Kanal 5.
+Spiel Playlist Chillout auf Spotify.
+Spiel das neue Album von Peter Fox.
+Ruf Mama an.
+Schreib Lisa, dass ich zehn Minuten später komme.
+Füge Kaffee, Haferflocken und 2 Liter Milch zur Einkaufsliste hinzu.
+Wann fährt der nächste Zug nach Stuttgart Hauptbahnhof?
+Wie wird das Wetter am Donnerstag in Freiburg?
+Wie viel Grad hat es in München?
