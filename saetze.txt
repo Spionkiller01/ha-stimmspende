@@ -392,3 +392,92 @@ Füge Kaffee, Haferflocken und 2 Liter Milch zur Einkaufsliste hinzu.
 Wann fährt der nächste Zug nach Stuttgart Hauptbahnhof?
 Wie wird das Wetter am Donnerstag in Freiburg?
 Wie viel Grad hat es in München?
+Sauge.
+Sauge bitte.
+Saugen!
+Jetzt saugen.
+Sauger los.
+Sauger stopp.
+Sauger zurück.
+Sauger nach Hause.
+Wischen.
+Bitte wischen.
+Licht an.
+Licht aus.
+Licht an, bitte.
+Mach Licht.
+Licht heller.
+Licht dunkler.
+Heller.
+Dunkler.
+Mehr Licht.
+Weniger Licht.
+Alles aus.
+Alles an.
+Gute Nacht.
+Guten Morgen.
+Rollladen auf.
+Rollo runter.
+Jalousie zu.
+Hoch.
+Runter.
+Stopp.
+Halt.
+Auf.
+Zu.
+Halb.
+Musik an.
+Musik aus.
+Musik!
+Pause.
+Weiter.
+Lauter.
+Leiser.
+Viel lauter.
+Ein bisschen leiser.
+Nächstes Lied.
+Zurück.
+Ton aus.
+Ton an.
+Fernseher an.
+Fernseher aus.
+TV aus.
+Netflix.
+Radio an.
+Radio aus.
+Wärmer.
+Kälter.
+Heizung an.
+Heizung aus.
+Heizung runter.
+Heizung hoch.
+Lüften.
+Fenster zu?
+Timer stopp.
+Timer abbrechen.
+Wie spät?
+Wie spät ist es?
+Wetter?
+Wetter morgen.
+Wie warm?
+Datum?
+Ja.
+Nein.
+Ja, bitte.
+Nee.
+Doch.
+Klar.
+Genau.
+Richtig.
+Falsch.
+Abbrechen.
+Danke.
+Danke dir.
+Okay.
+Passt.
+Nochmal.
+Wiederholen.
+Was?
+Hallo.
+Bist du da?
+Hilfe.

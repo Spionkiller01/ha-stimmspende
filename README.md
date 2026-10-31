@@ -129,7 +129,7 @@ vorher/nachher.
   wieder her. Das ist kein offizielles API; sollte ein HA-Update das ändern, meldet die Integration
   einen Fehler statt still nichts aufzunehmen.
 - `worker/` – Empfangsdienst (Cloudflare Worker): prüft Aufbau und Einwilligung, begrenzt die Menge
-- `blueprints/script/stimmspende.yaml` – das Skript-Blueprint für den Weg ohne HACS (Satzpool von ~390 Sätzen ist
+- `blueprints/script/stimmspende.yaml` – das Skript-Blueprint für den Weg ohne HACS (Satzpool von ~480 Sätzen ist
   eingebettet, je Durchlauf zufällige Auswahl)
 - `saetze.txt` – der Satzpool
 - `werkzeuge/` – Auswertung: Aufnahmen über den Inhalt den Sätzen zuordnen (nicht über
