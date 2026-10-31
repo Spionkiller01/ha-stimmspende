@@ -1,0 +1,65 @@
+name: Stimmspende
+description: Aufnahmen einer Lesesitzung hochladen
+title: "Spende: "
+labels: ["spende"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Danke fürs Mitmachen! Bitte die ZIP mit dem Ordner `/share/stimmspende` unten anhängen
+        (per Drag & Drop ins Feld „Aufnahmen"). **Anhänge sind sofort öffentlich.**
+  - type: checkboxes
+    id: einwilligung
+    attributes:
+      label: Einwilligung
+      options:
+        - label: Die Aufnahmen enthalten nur meine eigene Stimme, und ich bin mindestens 18 Jahre alt.
+          required: true
+        - label: Ich willige ein, dass die Aufnahmen öffentlich und dauerhaft unter CC0 1.0 (gemeinfrei) veröffentlicht und zum Training von Spracherkennungsmodellen genutzt werden.
+          required: true
+        - label: Ich habe geprüft, dass der Ordner nur die Lesesitzung enthält (keine anderen Sprachbefehle oder Personen).
+          required: true
+  - type: textarea
+    id: aufnahmen
+    attributes:
+      label: Aufnahmen (ZIP anhängen)
+      description: ZIP des Ordners /share/stimmspende, max. 25 MB
+    validations:
+      required: true
+  - type: textarea
+    id: saetze
+    attributes:
+      label: Satzliste aus der Benachrichtigung
+      description: Den Teil „Gesprochene Sätze" aus der HA-Benachrichtigung hier hineinkopieren.
+  - type: input
+    id: geraet
+    attributes:
+      label: Gerät / Mikrofon
+      placeholder: z. B. Home Assistant Voice PE, ReSpeaker XVF3800, M5 Atom Echo, Tablet mit View Assist
+    validations:
+      required: true
+  - type: dropdown
+    id: raum
+    attributes:
+      label: Raum
+      options: [Wohnzimmer, Küche, Schlafzimmer, Arbeitszimmer, Bad, Flur, anderer]
+  - type: dropdown
+    id: abstand
+    attributes:
+      label: Typischer Abstand zum Gerät
+      options: [unter 1 m, 1–3 m, 3–5 m, über 5 m, gemischt]
+  - type: dropdown
+    id: hintergrund
+    attributes:
+      label: Hintergrundgeräusche
+      options: [ruhig, etwas (Spülmaschine, leise Musik …), deutlich (Fernseher, Radio …), gemischt]
+  - type: dropdown
+    id: dialekt
+    attributes:
+      label: Aussprache (freiwillig)
+      options: [keine Angabe, Hochdeutsch, leichter Dialekt, deutlicher Dialekt, Deutsch nicht Muttersprache]
+  - type: input
+    id: region
+    attributes:
+      label: Region / Dialekt (freiwillig, grob)
+      placeholder: z. B. Schwäbisch, Bairisch, Norddeutsch, Österreich, Schweiz
