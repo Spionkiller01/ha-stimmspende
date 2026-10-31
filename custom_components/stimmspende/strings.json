@@ -1,0 +1,83 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Set up Stimmspende",
+        "description": "Your device reads random German sentences, you repeat them – no wake word, nothing is switched. Recordings are uploaded automatically and published under CC0 after review. Details: https://github.com/Spionkiller01/ha-stimmspende",
+        "data": {
+          "satellit": "Voice satellite",
+          "anzahl": "Sentences per round",
+          "okay_sagen": "Say “Okay” after each sentence",
+          "geraet": "Device / microphone (optional)",
+          "raum": "Room",
+          "abstand": "Typical distance to the device",
+          "hintergrund": "Background noise",
+          "dialekt": "Region / dialect (optional)",
+          "eigene_stimme": "The recordings contain only my own voice",
+          "volljaehrig": "I am at least 18 years old",
+          "cc0": "I agree that my recordings are published permanently under CC0 (public domain) and used to train speech recognition"
+        }
+      }
+    },
+    "error": {
+      "einwilligung": "Please confirm all three consents."
+    },
+    "abort": {
+      "already_configured": "Für dieses Gerät ist die Stimmspende schon eingerichtet."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Set up Stimmspende",
+        "data": {
+          "satellit": "Voice satellite",
+          "anzahl": "Sentences per round",
+          "okay_sagen": "Say “Okay” after each sentence",
+          "geraet": "Device / microphone (optional)",
+          "raum": "Room",
+          "abstand": "Typical distance to the device",
+          "hintergrund": "Background noise",
+          "dialekt": "Region / dialect (optional)"
+        }
+      }
+    }
+  },
+  "selector": {
+    "raum": {
+      "options": {
+        "wohnzimmer": "Living room",
+        "kueche": "Kitchen",
+        "schlafzimmer": "Bedroom",
+        "arbeitszimmer": "Office",
+        "bad": "Bathroom",
+        "flur": "Hallway",
+        "anderer": "other"
+      }
+    },
+    "abstand": {
+      "options": {
+        "unter_1m": "under 1 m",
+        "1_3m": "1–3 m",
+        "3_5m": "3–5 m",
+        "ueber_5m": "over 5 m",
+        "gemischt": "mixed"
+      }
+    },
+    "hintergrund": {
+      "options": {
+        "ruhig": "quiet",
+        "etwas": "some",
+        "deutlich": "noticeable (TV, radio …)",
+        "gemischt": "mixed"
+      }
+    }
+  },
+  "entity": {
+    "button": {
+      "starten": {
+        "name": "Start voice donation"
+      }
+    }
+  }
+}

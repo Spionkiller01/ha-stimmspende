@@ -16,66 +16,78 @@ Cohere Transcribe auf Raum-Aufnahmen von **14,8 % auf 7,2 %** gesenkt. Nahbespro
 ## So machst du mit (ca. 10 Minuten)
 
 ### Voraussetzungen
-- Home Assistant **2025.7 oder neuer**
+- Home Assistant **2025.7 oder neuer** und [HACS](https://hacs.xyz)
 - Ein Sprach-Satellit mit Mikrofon (Home Assistant Voice PE, ReSpeaker, ESPHome-Satellit,
   View Assist, Wyoming-Satellit …), der „Gespräch starten" unterstützt
 - Eine Assist-Pipeline auf **Deutsch** mit beliebiger Spracherkennung
-- Ein GitHub-Konto zum Hochladen
 
-### 1. Aufnahmen einschalten
-In die `configuration.yaml` (z. B. mit dem File-Editor-Add-on):
+### 1. Installieren
+[![In HACS öffnen](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=Spionkiller01&repository=ha-stimmspende&category=integration)
 
-```yaml
-assist_pipeline:
-  debug_recording_dir: /share/stimmspende
-```
+Oder von Hand: HACS → ⋮ → **Benutzerdefinierte Repositories** →
+`https://github.com/Spionkiller01/ha-stimmspende`, Typ **Integration** → „Stimmspende" herunterladen.
+Danach Home Assistant **einmal neu starten**.
 
-Home Assistant neu starten. Ab jetzt speichert HA jede Spracheingabe als WAV-Datei in diesem Ordner.
-(Home Assistant OS/Supervised: `/share/…` wie oben. Container- oder Core-Installation: einen Pfad im
-Config-Ordner nehmen, z. B. `/config/stimmspende`.)
+### 2. Einrichten
+[![Integration hinzufügen](https://my.home-assistant.io/badges/config_flow_start.svg)](https://my.home-assistant.io/redirect/config_flow_start/?domain=stimmspende)
 
-### 2. Blueprint importieren
-
-[![Blueprint importieren](https://my.home-assistant.io/badges/blueprint_import.svg)](https://my.home-assistant.io/redirect/blueprint_import/?blueprint_url=https%3A%2F%2Fgithub.com%2FSpionkiller01%2Fha-stimmspende%2Fblob%2Fmain%2Fblueprints%2Fscript%2Fstimmspende.yaml)
-
-Dann **Einstellungen → Automationen & Szenen → Blueprints → Stimmspende → Skript erstellen**,
-deinen Satelliten auswählen, speichern.
+Satelliten auswählen, die drei Einwilligungen bestätigen, freiwillig Gerät, Raum, Abstand und
+Dialekt angeben.
 
 ### 3. Aufnehmen
-Skript starten. Das Gerät liest dir 20 zufällige Sätze vor, du sprichst jeden nach – **ohne
-Weckwort**. Es wird dabei **nichts geschaltet**: Das Skript nutzt `assist_satellite.ask_question`,
-dabei läuft nur die Spracherkennung, kein Gesprächsagent, keine KI, keine Automationen.
+Beim Gerät „Stimmspende" auf **Stimmspende starten** drücken. Dein Satellit liest dir 20 zufällige
+Sätze vor, du sprichst jeden nach – **ohne Weckwort**. Nach jedem Satz sagt er „Okay".
+Am Ende werden die Aufnahmen **automatisch hochgeladen**, du bekommst eine Benachrichtigung. Fertig.
+
+Es wird dabei **nichts geschaltet**: Vorgelesen und zugehört wird über
+`assist_satellite.ask_question`, dabei läuft nur die Spracherkennung, kein Gesprächsagent, keine KI,
+keine Automationen. Aufgenommen wird **nur während der Sitzung**; danach ist alles wie vorher.
 
 **Bitte so natürlich wie möglich** – genau die schwierigen Fälle sind wertvoll:
 - Sprich so, wie du sonst mit deinem Sprachassistenten redest. Nicht extra deutlich.
-- Das Skript sagt dir zwischendurch: wegdrehen, durch den Raum gehen, an die entfernteste Stelle.
+- Das Gerät sagt dir zwischendurch: wegdrehen, durch den Raum gehen, an die entfernteste Stelle.
 - Normale Hintergrundgeräusche (Spülmaschine, leise Musik) sind ausdrücklich erwünscht.
 - **Andere Personen sollten nicht zu verstehen sein** (deren Stimmen dürfen ohne Einwilligung
   nicht veröffentlicht werden). Fernseher/Radio im Hintergrund ist in Ordnung.
 - Versprochen? Einfach weitermachen, das wird beim Auswerten aussortiert.
 
-### 4. Hochladen
-1. Den Ordner `/share/stimmspende` herunterladen (Samba-Add-on, oder Studio Code Server:
-   Rechtsklick → Download) und als ZIP packen.
-2. **[Neue Spende anlegen](https://github.com/Spionkiller01/ha-stimmspende/issues/new?template=spende.yml)**,
-   Formular ausfüllen, ZIP anhängen, Einwilligung bestätigen.
-3. **Aufräumen:** die zwei Zeilen wieder aus der `configuration.yaml` nehmen, neu starten und den
-   Ordner leeren – sonst werden alle weiteren Sprachbefehle weiter mitgeschnitten.
+Mehrere Runden, mehrere Räume oder mehrere Geräte sind herzlich willkommen – einfach nochmal drücken
+bzw. die Integration für ein weiteres Gerät hinzufügen.
 
-Mehrere Runden, mehrere Räume oder mehrere Geräte sind herzlich willkommen – jeweils als eigene Spende.
+<details>
+<summary>Ohne HACS: Weg mit Blueprint (mehr Handarbeit)</summary>
+
+1. In die `configuration.yaml` eintragen und HA neu starten:
+   ```yaml
+   assist_pipeline:
+     debug_recording_dir: /share/stimmspende
+   ```
+   (Container-/Core-Installation: z. B. `/config/stimmspende`)
+2. [![Blueprint importieren](https://my.home-assistant.io/badges/blueprint_import.svg)](https://my.home-assistant.io/redirect/blueprint_import/?blueprint_url=https%3A%2F%2Fgithub.com%2FSpionkiller01%2Fha-stimmspende%2Fblob%2Fmain%2Fblueprints%2Fscript%2Fstimmspende.yaml)
+   → Skript erstellen, Satelliten wählen, starten.
+3. Ordner `/share/stimmspende` herunterladen (Samba oder Studio Code Server), als ZIP über
+   [das Spendenformular](https://github.com/Spionkiller01/ha-stimmspende/issues/new?template=spende.yml)
+   hochladen (GitHub-Konto nötig, **Anhänge sind dort sofort öffentlich**), Satzliste aus der
+   Benachrichtigung mit hineinkopieren.
+4. Die Zeilen wieder aus der `configuration.yaml` nehmen, neu starten, Ordner leeren.
+</details>
 
 ## Datenschutz und Einwilligung
 
 - Deine Stimme ist ein personenbezogenes Datum. Mit dem Hochladen **willigst du ein**, dass deine
   Aufnahmen **öffentlich und dauerhaft** unter **CC0 1.0** (gemeinfrei) veröffentlicht werden:
   Jeder darf sie für jeden Zweck nutzen, auch kommerziell, auch zum Trainieren von KI-Modellen.
-- **Issue-Anhänge auf GitHub sind sofort öffentlich**, schon bevor sie geprüft werden.
+- **Weg der Daten (Integration):** Die ZIP geht verschlüsselt an einen kleinen Empfangsdienst bei
+  Cloudflare (`stimmspende.spionkiller01.workers.dev`, Quellcode im Ordner `worker/`) und liegt dort
+  **nicht öffentlich**, bis sie geprüft ist. IP-Adressen werden nicht gespeichert (nur ein gekürzter
+  Prüfwert gegen Spam, der nach einer Stunde verfällt).
+- **Weg der Daten (Blueprint/GitHub):** Issue-Anhänge sind **sofort öffentlich**, schon vor der Prüfung.
 - Lade nur Aufnahmen **deiner eigenen Stimme** hoch, du musst **mindestens 18 Jahre** alt sein.
-- Prüfe vor dem Hochladen, dass der Ordner nur die Lesesitzung enthält (keine anderen
-  Sprachbefehle, keine anderen Personen).
+- Hochgeladen werden nur die Aufnahmen der Lesesitzung vom gewählten Gerät, keine anderen
+  Sprachbefehle. Beim Blueprint-Weg bitte selbst prüfen, dass der Ordner nichts anderes enthält.
 - Es werden **keine Namen, Konten oder Geräte-IDs** in den Datensatz übernommen, nur die Audios,
   der Satztext und freiwillige Angaben aus dem Formular (Gerät, Raumgröße, Abstand).
-- Widerruf: Ein Issue mit der Nummer deiner Spende genügt, dann werden die Aufnahmen aus dem
+- Widerruf: Ein Issue mit der Spenden-Nummer aus deiner Benachrichtigung genügt, dann werden die Aufnahmen aus dem
   Datensatz entfernt. Bereits heruntergeladene Kopien Dritter lassen sich nicht zurückholen.
 - Das ist ein privates Hobbyprojekt ohne Gewinnabsicht, ohne Gewähr.
 
@@ -93,7 +105,13 @@ vorher/nachher.
 
 ## Technische Details
 
-- `blueprints/script/stimmspende.yaml` – das Skript-Blueprint (Satzpool von ~290 Sätzen ist
+- `custom_components/stimmspende/` – die Integration (Aufnahme nur während der Sitzung, Zuordnung
+  Aufnahme ↔ Satz direkt, ZIP + Upload). Sie schaltet dafür kurzzeitig HAs eingebaute
+  Debug-Aufnahme (`debug_recording_dir`) auf einen eigenen Ordner und stellt danach den alten Zustand
+  wieder her. Das ist kein offizielles API; sollte ein HA-Update das ändern, meldet die Integration
+  einen Fehler statt still nichts aufzunehmen.
+- `worker/` – Empfangsdienst (Cloudflare Worker): prüft Aufbau und Einwilligung, begrenzt die Menge
+- `blueprints/script/stimmspende.yaml` – das Skript-Blueprint für den Weg ohne HACS (Satzpool von ~290 Sätzen ist
   eingebettet, je Durchlauf zufällige Auswahl)
 - `saetze.txt` – der Satzpool
 - `werkzeuge/` – Auswertung: Aufnahmen über den Inhalt den Sätzen zuordnen (nicht über

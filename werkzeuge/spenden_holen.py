@@ -1,12 +1,13 @@
-"""Spenden aus den GitHub-Issues holen und den Sätzen zuordnen.
+"""Neue Spenden aus dem Cloudflare-Speicher holen, auspacken und zum Gegenhören vorbereiten.
 
-    python3 werkzeuge/spenden_holen.py [--stt http://localhost:9296/stt]
+    python3 werkzeuge/spenden_holen.py [--stt http://localhost:9296/stt] [--behalten]
 
-Für jedes offene Issue mit Label „spende": ZIP-Anhänge laden, WAVs auspacken, jede Aufnahme
-einzeln erkennen lassen und über den Inhalt dem ähnlichsten Satz aus saetze.txt zuordnen
-(nie über Zeitstempel – die Uhren von HA und Server laufen auseinander). Ergebnis je Spende in
-spenden/<issue>/zuordnung.json, unsichere Fälle (Ähnlichkeit < 0,6) zum Gegenhören markiert.
-Braucht `gh` (angemeldet) und einen STT-Dienst mit der Schnittstelle POST rohes PCM -> {"text"}.
+Zugangsdaten aus ~/.config/stimmspende.env (CLOUDFLARE_API_TOKEN, CLOUDFLARE_ACCOUNT_ID,
+CLOUDFLARE_KV_ID). Jede Spende landet in spenden/<id>/ (WAVs + manifest.json); die Zuordnung
+Aufnahme -> Satz steht schon im Manifest. Zusätzlich wird jede Aufnahme mit dem lokalen STT-Dienst
+erkannt und mit dem Satz verglichen: pruefung.tsv listet alle, auffällige (Ähnlichkeit < 0,6)
+zuerst. Nach erfolgreicher lokaler Sicherung wird die Spende aus dem Cloudflare-Speicher gelöscht
+(außer mit --behalten).
 """
 import argparse
 import difflib
@@ -14,12 +15,26 @@ import io
 import json
 import os
 import re
-import subprocess
+import urllib.parse
 import urllib.request
 import zipfile
 
 HIER = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-REPO = "Spionkiller01/ha-stimmspende"
+
+
+def env() -> dict:
+    werte = {}
+    for zeile in open(os.path.expanduser("~/.config/stimmspende.env")):
+        if "=" in zeile:
+            k, v = zeile.strip().split("=", 1)
+            werte[k] = v
+    return werte
+
+
+def cf(e: dict, pfad: str, methode: str = "GET") -> bytes:
+    url = f"https://api.cloudflare.com/client/v4/accounts/{e['CLOUDFLARE_ACCOUNT_ID']}/storage/kv/namespaces/{e['CLOUDFLARE_KV_ID']}{pfad}"
+    req = urllib.request.Request(url, method=methode, headers={"Authorization": f"Bearer {e['CLOUDFLARE_API_TOKEN']}"})
+    return urllib.request.urlopen(req, timeout=120).read()
 
 
 def norm(s: str) -> str:
@@ -29,42 +44,37 @@ def norm(s: str) -> str:
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--stt", default="http://localhost:9296/stt")
+    ap.add_argument("--behalten", action="store_true", help="Spenden nicht aus dem Cloudflare-Speicher löschen")
     args = ap.parse_args()
-    pool = [s.strip() for s in open(os.path.join(HIER, "saetze.txt")) if s.strip()]
-    issues = json.loads(subprocess.check_output(
-        ["gh", "issue", "list", "-R", REPO, "--label", "spende", "--state", "open", "--json", "number,body"]))
-    for iss in issues:
-        ziel = os.path.join(HIER, "spenden", str(iss["number"]))
-        if os.path.exists(os.path.join(ziel, "zuordnung.json")):
-            continue
-        links = re.findall(r"https://github\.com/user-attachments/files/\S+?\.zip", iss["body"])
-        if not links:
-            print(f"#{iss['number']}: kein ZIP gefunden")
-            continue
+    e = env()
+    schluessel = [k["name"] for k in json.loads(cf(e, "/keys?prefix=spende/"))["result"]]
+    if not schluessel:
+        print("Keine neuen Spenden.")
+        return
+    for k in schluessel:
+        sid = k.split("/", 1)[1]
+        ziel = os.path.join(HIER, "spenden", sid)
+        daten = cf(e, "/values/" + urllib.parse.quote(k, safe=""))
         os.makedirs(ziel, exist_ok=True)
-        wavs = []
-        for url in links:
-            daten = urllib.request.urlopen(url, timeout=60).read()
-            with zipfile.ZipFile(io.BytesIO(daten)) as z:
-                for name in sorted(z.namelist()):
-                    if name.endswith(".wav"):
-                        pfad = os.path.join(ziel, "wav", f"{len(wavs):03d}.wav")
-                        os.makedirs(os.path.dirname(pfad), exist_ok=True)
-                        open(pfad, "wb").write(z.read(name))
-                        wavs.append((name, pfad))
-        zuordnung = []
-        for name, pfad in wavs:
-            pcm = open(pfad, "rb").read()[44:]
-            if len(pcm) < 3200:
-                continue  # leer oder kürzer als 0,1 s
+        open(ziel + ".zip", "wb").write(daten)
+        with zipfile.ZipFile(io.BytesIO(daten)) as z:
+            z.extractall(ziel)
+        m = json.load(open(os.path.join(ziel, "manifest.json")))
+        zeilen = []
+        for s in m["saetze"]:
+            pcm = open(os.path.join(ziel, s["datei"]), "rb").read()[44:]
             text = json.load(urllib.request.urlopen(urllib.request.Request(args.stt, pcm), timeout=30))["text"]
-            satz, aehnl = max(((s, difflib.SequenceMatcher(None, norm(s), norm(text)).ratio()) for s in pool),
-                              key=lambda x: x[1])
-            zuordnung.append(dict(datei=os.path.relpath(pfad, ziel), original=name, erkannt=text,
-                                  satz=satz, aehnlichkeit=round(aehnl, 2), pruefen=aehnl < 0.6))
-        json.dump(zuordnung, open(os.path.join(ziel, "zuordnung.json"), "w"), ensure_ascii=False, indent=1)
-        unsicher = sum(z["pruefen"] for z in zuordnung)
-        print(f"#{iss['number']}: {len(zuordnung)} Aufnahmen, {unsicher} zum Gegenhören")
+            aehnl = difflib.SequenceMatcher(None, norm(s["satz"]), norm(text)).ratio()
+            zeilen.append((aehnl, s["datei"], s["satz"], text, s.get("erkannt", "")))
+        zeilen.sort()
+        with open(os.path.join(ziel, "pruefung.tsv"), "w") as f:
+            f.write("Ähnlichkeit\tDatei\tVorlage\tLokal erkannt\tErkannt beim Spender\n")
+            for z in zeilen:
+                f.write(f"{z[0]:.2f}\t" + "\t".join(z[1:]) + "\n")
+        auffaellig = sum(z[0] < 0.6 for z in zeilen)
+        print(f"{sid}: {len(zeilen)} Aufnahmen, {auffaellig} auffällig, Gerät {m.get('satellit_plattform')}/{m.get('geraet') or '-'}, Raum {m.get('raum')}")
+        if not args.behalten:
+            cf(e, "/values/" + urllib.parse.quote(k, safe=""), methode="DELETE")
 
 
 if __name__ == "__main__":
