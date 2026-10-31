@@ -21,11 +21,16 @@ from .const import (
     CONF_HINTERGRUND,
     CONF_OKAY,
     CONF_RAUM,
+    CONF_RAUMGROESSE,
+    CONF_RAUMKLANG,
+    CONF_SPRECHER,
     CONF_SATELLIT,
     CONF_VOLLJAEHRIG,
     DOMAIN,
     HINTERGRUENDE,
     RAEUME,
+    RAUMGROESSEN,
+    RAUMKLAENGE,
 )
 
 
@@ -42,6 +47,12 @@ def _schema(werte: dict[str, Any], mit_einwilligung: bool) -> vol.Schema:
         vol.Optional(CONF_RAUM, default=werte.get(CONF_RAUM, "wohnzimmer")): selector.SelectSelector(
             selector.SelectSelectorConfig(options=RAEUME, translation_key="raum")
         ),
+        vol.Optional(CONF_RAUMGROESSE, default=werte.get(CONF_RAUMGROESSE, "mittel")): selector.SelectSelector(
+            selector.SelectSelectorConfig(options=RAUMGROESSEN, translation_key="raumgroesse")
+        ),
+        vol.Optional(CONF_RAUMKLANG, default=werte.get(CONF_RAUMKLANG, "normal")): selector.SelectSelector(
+            selector.SelectSelectorConfig(options=RAUMKLAENGE, translation_key="raumklang")
+        ),
         vol.Optional(CONF_ABSTAND, default=werte.get(CONF_ABSTAND, "gemischt")): selector.SelectSelector(
             selector.SelectSelectorConfig(options=ABSTAENDE, translation_key="abstand")
         ),
@@ -49,6 +60,7 @@ def _schema(werte: dict[str, Any], mit_einwilligung: bool) -> vol.Schema:
             selector.SelectSelectorConfig(options=HINTERGRUENDE, translation_key="hintergrund")
         ),
         vol.Optional(CONF_DIALEKT, default=werte.get(CONF_DIALEKT, "")): selector.TextSelector(),
+        vol.Optional(CONF_SPRECHER, default=werte.get(CONF_SPRECHER, "")): selector.TextSelector(),
     }
     if mit_einwilligung:
         for k in (CONF_EIGENE_STIMME, CONF_VOLLJAEHRIG, CONF_CC0):

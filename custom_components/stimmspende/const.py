@@ -1,7 +1,7 @@
 """Konstanten der Stimmspende."""
 
 DOMAIN = "stimmspende"
-VERSION = "0.1.0"
+VERSION = "0.2.0"
 
 UPLOAD_URL = "https://stimmspende.spionkiller01.workers.dev/spende"
 
@@ -16,7 +16,12 @@ CONF_RAUM = "raum"
 CONF_ABSTAND = "abstand"
 CONF_HINTERGRUND = "hintergrund"
 CONF_DIALEKT = "dialekt"
+CONF_RAUMGROESSE = "raumgroesse"
+CONF_RAUMKLANG = "raumklang"
+CONF_SPRECHER = "sprecher"
 
 RAEUME = ["wohnzimmer", "kueche", "schlafzimmer", "arbeitszimmer", "bad", "flur", "anderer"]
 ABSTAENDE = ["unter_1m", "1_3m", "3_5m", "ueber_5m", "gemischt"]
 HINTERGRUENDE = ["ruhig", "etwas", "deutlich", "gemischt"]
+RAUMGROESSEN = ["klein", "mittel", "gross"]
+RAUMKLAENGE = ["gedaempft", "normal", "hallig"]

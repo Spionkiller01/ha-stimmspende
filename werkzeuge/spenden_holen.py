@@ -72,7 +72,7 @@ def main() -> None:
             for z in zeilen:
                 f.write(f"{z[0]:.2f}\t" + "\t".join(z[1:]) + "\n")
         auffaellig = sum(z[0] < 0.6 for z in zeilen)
-        print(f"{sid}: {len(zeilen)} Aufnahmen, {auffaellig} auffällig, Gerät {m.get('satellit_plattform')}/{m.get('geraet') or '-'}, Raum {m.get('raum')}")
+        print(f"{sid}: {len(zeilen)} Aufnahmen, {auffaellig} auffällig, Sprecher {m.get('sprecher', '-')}, Gerät {m.get('satellit_plattform')}/{m.get('geraet') or '-'}, Raum {m.get('raum')}")
         if not args.behalten:
             cf(e, "/values/" + urllib.parse.quote(k, safe=""), methode="DELETE")
 

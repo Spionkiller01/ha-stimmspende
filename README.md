@@ -10,7 +10,10 @@ in echten Räumen**, und veröffentlicht sie als freien Datensatz (CC0). Daraus 
 nachtrainiertes, frei verfügbares Modell für deutschsprachige Home-Assistant-Nutzer entstehen.
 
 Ein erster Versuch mit eigenen Aufnahmen (ein Sprecher, ca. 230 Sätze) hat die Fehlerquote von
-Cohere Transcribe auf Raum-Aufnahmen von **14,8 % auf 7,2 %** gesenkt. Nahbesprochene Fremddaten
+Cohere Transcribe auf Raum-Aufnahmen von **14,8 % auf 7,2 %** gesenkt. Wichtig: Das ist auf
+*derselben* Stimme gemessen, mit der trainiert wurde – es zeigt, wie gut die Anpassung an eine
+Person klappt, nicht, wie gut ein allgemeines Modell für andere wird. Genau dafür braucht es
+viele Sprecher. Nahbesprochene Fremddaten
 (Speech-MASSIVE) brachten dagegen nichts – es braucht Aufnahmen aus dem Raum.
 
 ## So machst du mit (ca. 10 Minuten)
@@ -31,8 +34,10 @@ Danach Home Assistant **einmal neu starten**.
 ### 2. Einrichten
 [![Integration hinzufügen](https://my.home-assistant.io/badges/config_flow_start.svg)](https://my.home-assistant.io/redirect/config_flow_start/?domain=stimmspende)
 
-Satelliten auswählen, die drei Einwilligungen bestätigen, freiwillig Gerät, Raum, Abstand und
-Dialekt angeben.
+Satelliten auswählen, die drei Einwilligungen bestätigen, freiwillig Gerät, Raum, Raumgröße,
+Raumklang, Abstand und Dialekt angeben. Sprechen mehrere Personen im Haushalt, trägt jede bei „Wer
+spricht?" ihr Kürzel ein (Optionen der Integration) – das Kürzel bleibt lokal, gesendet wird nur
+eine anonyme Kennung (siehe unten).
 
 ### 3. Aufnehmen
 Beim Gerät „Stimmspende" auf **Stimmspende starten** drücken. Dein Satellit liest dir 20 zufällige
@@ -96,10 +101,23 @@ bzw. die Integration für ein weiteres Gerät hinzufügen.
 - **Aufnahmen und Satzliste:** [CC0 1.0](LICENSE-DATEN) – gemeinfrei
 - **Blueprint und Werkzeuge:** [MIT](LICENSE)
 
+## Was pro Aufnahme gespeichert wird
+
+- der vorgelesene Satz und was eure eigene Spracherkennung daraus gemacht hat
+- die **Phase** der Aufnahme: `zugewandt`, `abgewandt`, `gehend` oder `weit` (das Skript sagt die
+  Wechsel selbst an), damit sich getrennt messen lässt, ob ein Modell z. B. nur bei Fernfeld oder
+  nur in halligen Räumen besser wird
+- pro Spende: Gerätetyp, Raum, Raumgröße, Raumklang, Abstand, Hintergrund, freiwillig Dialekt
+- eine **anonyme Sprecher-Kennung**: ein Hash aus der zufälligen Installations-ID eures Home
+  Assistant und dem lokalen Kürzel. Daraus lässt sich niemand ermitteln, aber mehrere Runden
+  derselben Person gehören zusammen. Das ist nötig, damit beim Auswerten **keine Stimme gleichzeitig
+  im Training und im Test** landet – sonst misst man nur, wie gut das Modell bekannte Stimmen kann.
+
 ## Was mit den Daten passiert
 
 Spenden werden geprüft (Satz passt zur Aufnahme, nur eine Stimme, keine privaten Inhalte),
-in den Datensatz übernommen und regelmäßig gesammelt veröffentlicht. Damit wird ein freies
+in den Datensatz übernommen und regelmäßig gesammelt veröffentlicht. Für Messungen wird nach
+Sprechern getrennt: Testsprecher kommen nie ins Training. Damit wird ein freies
 deutsches Spracherkennungsmodell nachtrainiert und ebenfalls veröffentlicht, samt Messwerten
 vorher/nachher.
 

@@ -15,7 +15,10 @@
           "dialekt": "Region / Dialekt (freiwillig, grob)",
           "eigene_stimme": "Ich spreche selbst; die Aufnahmen enthalten nur meine Stimme",
           "volljaehrig": "Ich bin mindestens 18 Jahre alt",
-          "cc0": "Ich willige ein, dass meine Aufnahmen öffentlich und dauerhaft unter CC0 (gemeinfrei) veröffentlicht und zum Training von Spracherkennung genutzt werden"
+          "cc0": "Ich willige ein, dass meine Aufnahmen öffentlich und dauerhaft unter CC0 (gemeinfrei) veröffentlicht und zum Training von Spracherkennung genutzt werden",
+          "raumgroesse": "Raumgröße",
+          "raumklang": "Raumklang",
+          "sprecher": "Wer spricht? (Kürzel, z. B. Vorname – bleibt lokal, gesendet wird nur eine anonyme Kennung)"
         }
       }
     },
@@ -38,7 +41,10 @@
           "raum": "Raum",
           "abstand": "Typischer Abstand zum Gerät",
           "hintergrund": "Hintergrundgeräusche",
-          "dialekt": "Region / Dialekt (freiwillig, grob)"
+          "dialekt": "Region / Dialekt (freiwillig, grob)",
+          "raumgroesse": "Raumgröße",
+          "raumklang": "Raumklang",
+          "sprecher": "Wer spricht? (Kürzel, z. B. Vorname – bleibt lokal, gesendet wird nur eine anonyme Kennung)"
         }
       }
     }
@@ -70,6 +76,20 @@
         "etwas": "etwas (Spülmaschine, leise Musik …)",
         "deutlich": "deutlich (Fernseher, Radio …)",
         "gemischt": "gemischt"
+      }
+    },
+    "raumgroesse": {
+      "options": {
+        "klein": "klein (bis ca. 12 m²)",
+        "mittel": "mittel (ca. 12–30 m²)",
+        "gross": "groß (über 30 m² / offen)"
+      }
+    },
+    "raumklang": {
+      "options": {
+        "gedaempft": "gedämpft (Teppich, Vorhänge, Polster)",
+        "normal": "normal",
+        "hallig": "hallig (Fliesen, kahle Wände, hohe Decke)"
       }
     }
   },

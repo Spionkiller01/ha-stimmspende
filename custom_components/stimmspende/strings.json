@@ -15,7 +15,10 @@
           "dialekt": "Region / dialect (optional)",
           "eigene_stimme": "The recordings contain only my own voice",
           "volljaehrig": "I am at least 18 years old",
-          "cc0": "I agree that my recordings are published permanently under CC0 (public domain) and used to train speech recognition"
+          "cc0": "I agree that my recordings are published permanently under CC0 (public domain) and used to train speech recognition",
+          "raumgroesse": "Room size",
+          "raumklang": "Room acoustics",
+          "sprecher": "Who is speaking? (short name, stays local; only an anonymous ID is sent)"
         }
       }
     },
@@ -38,7 +41,10 @@
           "raum": "Room",
           "abstand": "Typical distance to the device",
           "hintergrund": "Background noise",
-          "dialekt": "Region / dialect (optional)"
+          "dialekt": "Region / dialect (optional)",
+          "raumgroesse": "Room size",
+          "raumklang": "Room acoustics",
+          "sprecher": "Who is speaking? (short name, stays local; only an anonymous ID is sent)"
         }
       }
     }
@@ -70,6 +76,20 @@
         "etwas": "some",
         "deutlich": "noticeable (TV, radio …)",
         "gemischt": "mixed"
+      }
+    },
+    "raumgroesse": {
+      "options": {
+        "klein": "small (up to ~12 m²)",
+        "mittel": "medium (~12–30 m²)",
+        "gross": "large (over 30 m² / open plan)"
+      }
+    },
+    "raumklang": {
+      "options": {
+        "gedaempft": "damped (carpet, curtains)",
+        "normal": "normal",
+        "hallig": "echoey (tiles, bare walls, high ceiling)"
       }
     }
   },

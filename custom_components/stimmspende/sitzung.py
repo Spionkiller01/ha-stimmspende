@@ -22,12 +22,14 @@ import shutil
 import uuid
 import zipfile
 
+import hashlib
+
 import aiohttp
 
 from homeassistant.components import persistent_notification
 from homeassistant.const import __version__ as HA_VERSION
 from homeassistant.core import HomeAssistant
-from homeassistant.helpers import entity_registry as er
+from homeassistant.helpers import entity_registry as er, instance_id
 from homeassistant.helpers.aiohttp_client import async_get_clientsession
 
 from .const import (
@@ -40,7 +42,10 @@ from .const import (
     CONF_HINTERGRUND,
     CONF_OKAY,
     CONF_RAUM,
+    CONF_RAUMGROESSE,
+    CONF_RAUMKLANG,
     CONF_SATELLIT,
+    CONF_SPRECHER,
     CONF_VOLLJAEHRIG,
     DOMAIN,
     UPLOAD_URL,
@@ -48,10 +53,12 @@ from .const import (
 )
 
 _LOGGER = logging.getLogger(__name__)
+# Anteil der Sätze -> (Ansage, Phase ab hier). Die Phase steht je Aufnahme im Manifest, damit sich
+# später getrennt auswerten lässt (zugewandt / abgewandt / in Bewegung / weit entfernt).
 HINWEISE = {
-    0.3: "Dreh dich für die nächsten Sätze bitte vom Gerät weg.",
-    0.55: "Geh jetzt ein paar Schritte durch den Raum, du darfst auch beim Sprechen laufen.",
-    0.8: "Jetzt bitte an die Stelle im Raum, die am weitesten vom Gerät weg ist.",
+    0.3: ("Dreh dich für die nächsten Sätze bitte vom Gerät weg.", "abgewandt"),
+    0.55: ("Geh jetzt ein paar Schritte durch den Raum, du darfst auch beim Sprechen laufen.", "gehend"),
+    0.8: ("Jetzt bitte an die Stelle im Raum, die am weitesten vom Gerät weg ist.", "weit"),
 }
 LEER = 1600  # Bytes: unter 0,05 s Audio gilt als keine Aufnahme
 
@@ -129,6 +136,7 @@ class Sitzung:
         anzahl = int(self.cfg.get(CONF_ANZAHL, 20))
         auswahl = random.sample(pool, min(anzahl, len(pool)))
         hinweise = {int(anzahl * f): t for f, t in HINWEISE.items()}
+        phase = "zugewandt"
 
         alt = pipeline_cfg.get(CONF_DEBUG_RECORDING_DIR, None)
         hatte_alt = CONF_DEBUG_RECORDING_DIR in pipeline_cfg
@@ -144,7 +152,8 @@ class Sitzung:
             )
             for i, satz in enumerate(auswahl):
                 if i in hinweise and i > 0:
-                    await self._sagen(hinweise[i])
+                    await self._sagen(hinweise[i][0])
+                    phase = hinweise[i][1]
                 datei = None
                 erkannt = ""
                 for versuch, frage in enumerate((satz, f"Ich habe nichts gehört. Nochmal: {satz}")):
@@ -159,7 +168,7 @@ class Sitzung:
                 if datei is not None:
                     name = f"{len(saetze) + 1:03d}.wav"
                     await self.hass.async_add_executor_job(shutil.copyfile, datei, self.ordner / name)
-                    saetze.append({"datei": name, "satz": satz, "erkannt": erkannt, "versuch": versuch + 1})
+                    saetze.append({"datei": name, "satz": satz, "erkannt": erkannt, "versuch": versuch + 1, "phase": phase})
                 if self.cfg.get(CONF_OKAY, True):
                     await self._sagen("Okay.")
         except Exception:  # noqa: BLE001
@@ -175,14 +184,24 @@ class Sitzung:
             await self.hass.async_add_executor_job(shutil.rmtree, self.ordner, True)
             return
 
+        # Anonyme Sprecher-Kennung: Hash aus der zufälligen Installations-ID von HA und dem lokal
+        # eingetragenen Kürzel. Der Name selbst verlässt HA nie; dieselbe Person bekommt bei
+        # mehreren Runden dieselbe Kennung, damit sie beim Testen komplett herausgehalten werden kann.
+        installation = await instance_id.async_get(self.hass)
+        kuerzel = (self.cfg.get(CONF_SPRECHER) or "").strip().lower()
+        sprecher = hashlib.sha256(f"stimmspende:{installation}:{kuerzel}".encode()).hexdigest()[:16]
+
         manifest = {
-            "format": 1,
+            "format": 2,
+            "sprecher": sprecher,
             "integration": VERSION,
             "homeassistant": HA_VERSION,
             "zeit": datetime.now(timezone.utc).strftime("%Y-%m-%d"),
             "satellit_plattform": plattform,
             "geraet": self.cfg.get(CONF_GERAET, ""),
             "raum": self.cfg.get(CONF_RAUM),
+            "raumgroesse": self.cfg.get(CONF_RAUMGROESSE),
+            "raumklang": self.cfg.get(CONF_RAUMKLANG),
             "abstand": self.cfg.get(CONF_ABSTAND),
             "hintergrund": self.cfg.get(CONF_HINTERGRUND),
             "dialekt": self.cfg.get(CONF_DIALEKT, ""),
